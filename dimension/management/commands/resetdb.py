@@ -47,9 +47,6 @@ class Command(BaseCommand):
         "Resets your development database to a fresh state. "
         "All data will be deleted.")
 
-    #Comma-delimited string. if a table starts with any of these prefixes, it is ignored by this command.
-    stealth_options = ('ignore_table_prefixes',)
-
     def add_arguments(self, parser):
         ahelp = (
             'Tells the resetdb command to NOT prompt the user for '
@@ -57,6 +54,10 @@ class Command(BaseCommand):
         parser.add_argument(
             '--noinput', action='store_false', dest='interactive',
             default=True, help=ahelp)
+        parser.add_argument(
+            '--ignore_table_prefixes',
+            action='store', type=str, dest='ignore_table_prefixes', default='',
+            help='comma-separated list of prefixes. Tables starting with these will be ignored.')
 
     def _confirm(self):
         self.stdout.write(
